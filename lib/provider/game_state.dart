@@ -25,6 +25,14 @@ class GameState extends _$GameState {
     // return wordsList[Random().nextInt(wordsList.length)].toUpperCase();
   }
 
+  void reset() {
+    _currentWord = _setCurrentWord();
+    _wrongCount = 0;
+    _isGameOver = false;
+    _isWon = false;
+    state = "";
+  }
+
   String getCurrentWord() => _currentWord;
 
   int get wrongCount => _wrongCount;
@@ -47,7 +55,22 @@ class GameState extends _$GameState {
   }
 
   String shouldShowLetter(String letter) {
+    if (_isGameOver || _isWon) {
+      return letter;
+    }
     return state.contains(letter) ? letter : "";
+  }
+
+  Color letterColor(String letter) {
+    if (_isWon || _isGameOver) {
+      if (state.contains(letter)) {
+        return Colors.white;
+      } else {
+        return Colors.red;
+      }
+    } else {
+      return Colors.white;
+    }
   }
 
   bool checkLetter(String letter) {

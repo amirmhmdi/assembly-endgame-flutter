@@ -7,9 +7,9 @@ class LetterContainerWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(gameStateProvider);
     final String currentWord =
         ref.watch(gameStateProvider.notifier).getCurrentWord();
-    ref.watch(gameStateProvider);
     return Wrap(
       alignment: WrapAlignment.center,
       children: currentWord
@@ -28,7 +28,10 @@ class LetterContainerWidget extends ConsumerWidget {
                 child: Text(
                   ref.read(gameStateProvider.notifier).shouldShowLetter(e),
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 24),
+                  style: TextStyle(
+                    color: ref.read(gameStateProvider.notifier).letterColor(e),
+                    fontSize: 24,
+                  ),
                 ),
               ))
           .toList(),
