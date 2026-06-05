@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:assembly_endgame/utils/languages.dart';
 import 'package:assembly_endgame/utils/word_list.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,6 +11,8 @@ part 'game_state.g.dart';
 class GameState extends _$GameState {
   String _currentWord = "";
   int _wrongCount = 0;
+  bool _isGameOver = false;
+  bool _isWon = false;
 
   @override
   String build() {
@@ -24,14 +27,22 @@ class GameState extends _$GameState {
 
   String getCurrentWord() => _currentWord;
 
-  int wrongCount() => _wrongCount;
+  int get wrongCount => _wrongCount;
+  bool get isGameOver => _isGameOver;
+  bool get isWon => _isWon;
 
   void addLetter(String letter) {
     if (!state.contains(letter)) {
+      state += letter;
+      if (_currentWord.split("").every((element) => state.contains(element))) {
+        _isWon = true;
+      }
       if (!_currentWord.contains(letter)) {
         _wrongCount++;
+        if (_wrongCount > languagesList.length - 1) {
+          _isGameOver = true;
+        }
       }
-      state += letter;
     }
   }
 
@@ -51,7 +62,10 @@ class GameState extends _$GameState {
         return Colors.red;
       }
     } else {
-      return Colors.grey;
+      return Colors.orange;
     }
   }
+
+  bool isLastLetterCorrect() =>
+      _currentWord.contains(state.isNotEmpty ? state[state.length - 1] : "");
 }

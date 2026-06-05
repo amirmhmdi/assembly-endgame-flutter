@@ -36,7 +36,7 @@ class ChipsWidget extends ConsumerWidget {
                 ),
               ),
             ),
-            if (element.key < ref.read(gameStateProvider.notifier).wrongCount())
+            if (element.key < ref.read(gameStateProvider.notifier).wrongCount)
               Positioned.fill(
                 child: Container(
                   alignment: Alignment.center,
