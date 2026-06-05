@@ -9,6 +9,7 @@ part 'game_state.g.dart';
 @riverpod
 class GameState extends _$GameState {
   String _currentWord = "";
+  int _wrongCount = 0;
 
   @override
   String build() {
@@ -21,12 +22,17 @@ class GameState extends _$GameState {
     // return wordsList[Random().nextInt(wordsList.length)].toUpperCase();
   }
 
-  String getCurrentWord() {
-    return _currentWord;
-  }
+  String getCurrentWord() => _currentWord;
+
+  int wrongCount() => _wrongCount;
 
   void addLetter(String letter) {
-    if (!state.contains(letter)) state += letter;
+    if (!state.contains(letter)) {
+      if (!_currentWord.contains(letter)) {
+        _wrongCount++;
+      }
+      state += letter;
+    }
   }
 
   String shouldShowLetter(String letter) {
