@@ -9,7 +9,7 @@ class KeyboardWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(gameStateProvider);
+    final game = ref.watch(gameStateProvider);
     return Container(
       padding: const EdgeInsets.all(8),
       child: Wrap(
@@ -34,8 +34,7 @@ class KeyboardWidget extends ConsumerWidget {
                     side: const BorderSide(width: 1, color: Colors.white),
                   ),
                 ),
-                onPressed: (ref.read(gameStateProvider.notifier).isGameOver ||
-                        ref.read(gameStateProvider.notifier).isWon)
+                onPressed: (game.isGameOver || game.isWon)
                     ? null
                     : () {
                         ref.read(gameStateProvider.notifier).addLetter(letter);
@@ -43,8 +42,7 @@ class KeyboardWidget extends ConsumerWidget {
                 child: Text(
                   letter,
                   style: TextStyle(
-                    color: (ref.read(gameStateProvider.notifier).isGameOver ||
-                            ref.read(gameStateProvider.notifier).isWon)
+                    color: (game.isGameOver || game.isWon)
                         ? Colors.blueGrey
                         : Colors.black,
                     fontSize: 18,

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:assembly_endgame/models/game_model.dart';
 import 'package:assembly_endgame/utils/languages.dart';
 import 'package:assembly_endgame/utils/word_list.dart';
 import 'package:flutter/material.dart';
@@ -9,60 +10,57 @@ part 'game_state.g.dart';
 
 @riverpod
 class GameState extends _$GameState {
-  String _currentWord = "";
-  int _wrongCount = 0;
-  bool _isGameOver = false;
-  bool _isWon = false;
-
   @override
-  String build() {
-    _currentWord = _setCurrentWord();
-    return "";
+  GameModel build() {
+    return GameModel.initial(_getRandomWord());
   }
 
-  String _setCurrentWord() {
+  String _getRandomWord() {
     return wordsList[Random().nextInt(wordsList.length)].toUpperCase();
   }
 
   void reset() {
-    _currentWord = _setCurrentWord();
-    _wrongCount = 0;
-    _isGameOver = false;
-    _isWon = false;
-    state = "";
+    state = GameModel.initial(_getRandomWord());
   }
 
-  String getCurrentWord() => _currentWord;
-
-  int get wrongCount => _wrongCount;
-  bool get isGameOver => _isGameOver;
-  bool get isWon => _isWon;
-
   void addLetter(String letter) {
-    if (!state.contains(letter)) {
-      state += letter;
-      if (_currentWord.split("").every((element) => state.contains(element))) {
-        _isWon = true;
+    if (state.isGameOver || state.isWon) return;
+
+    if (!state.guessedLetters.contains(letter)) {
+      final newGuessedLetters = state.guessedLetters + letter;
+      final isLastLetterCorrect = state.currentWord.contains(letter);
+      
+      int newWrongCount = state.wrongCount;
+      if (!isLastLetterCorrect) {
+        newWrongCount++;
       }
-      if (!_currentWord.contains(letter)) {
-        _wrongCount++;
-        if (_wrongCount > languagesList.length - 1) {
-          _isGameOver = true;
-        }
-      }
+
+      final isWon = state.currentWord
+          .split("")
+          .every((element) => newGuessedLetters.contains(element));
+      
+      final isGameOver = newWrongCount > languagesList.length - 1;
+
+      state = state.copyWith(
+        guessedLetters: newGuessedLetters,
+        wrongCount: newWrongCount,
+        isWon: isWon,
+        isGameOver: isGameOver,
+        isLastLetterCorrect: isLastLetterCorrect,
+      );
     }
   }
 
   String shouldShowLetter(String letter) {
-    if (_isGameOver || _isWon) {
+    if (state.isGameOver || state.isWon) {
       return letter;
     }
-    return state.contains(letter) ? letter : "";
+    return state.guessedLetters.contains(letter) ? letter : "";
   }
 
   Color letterColor(String letter) {
-    if (_isWon || _isGameOver) {
-      if (state.contains(letter)) {
+    if (state.isWon || state.isGameOver) {
+      if (state.guessedLetters.contains(letter)) {
         return Colors.white;
       } else {
         return Colors.red;
@@ -73,12 +71,12 @@ class GameState extends _$GameState {
   }
 
   bool checkLetter(String letter) {
-    return state.contains(letter);
+    return state.guessedLetters.contains(letter);
   }
 
   Color keyboardColor(String letter) {
-    if (state.contains(letter)) {
-      if (_currentWord.contains(letter)) {
+    if (state.guessedLetters.contains(letter)) {
+      if (state.currentWord.contains(letter)) {
         return Colors.green;
       } else {
         return Colors.red;
@@ -87,7 +85,4 @@ class GameState extends _$GameState {
       return Colors.orange;
     }
   }
-
-  bool isLastLetterCorrect() =>
-      _currentWord.contains(state.isNotEmpty ? state[state.length - 1] : "");
 }

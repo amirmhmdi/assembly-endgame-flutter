@@ -7,16 +7,14 @@ class NewGameButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    ref.watch(gameStateProvider);
-    return (ref.read(gameStateProvider.notifier).isGameOver ||
-            ref.read(gameStateProvider.notifier).isWon)
+    final game = ref.watch(gameStateProvider);
+    return (game.isGameOver || game.isWon)
         ? ElevatedButton(
             onPressed: () {
               ref.read(gameStateProvider.notifier).reset();
             },
             style: ElevatedButton.styleFrom(
               fixedSize: const Size(200, 50),
-              // padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 12),
               backgroundColor: Colors.blue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

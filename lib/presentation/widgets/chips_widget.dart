@@ -8,7 +8,7 @@ class ChipsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(gameStateProvider);
+    final game = ref.watch(gameStateProvider);
     return Wrap(
       spacing: 8,
       runSpacing: 8,
@@ -36,7 +36,7 @@ class ChipsWidget extends ConsumerWidget {
                 ),
               ),
             ),
-            if (element.key < ref.read(gameStateProvider.notifier).wrongCount)
+            if (element.key < game.wrongCount)
               Positioned.fill(
                 child: Container(
                   alignment: Alignment.center,

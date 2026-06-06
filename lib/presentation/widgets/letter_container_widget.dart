@@ -7,12 +7,10 @@ class LetterContainerWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(gameStateProvider);
-    final String currentWord =
-        ref.watch(gameStateProvider.notifier).getCurrentWord();
+    final game = ref.watch(gameStateProvider);
     return Wrap(
       alignment: WrapAlignment.center,
-      children: currentWord
+      children: game.currentWord
           .toUpperCase()
           .split("")
           .map((e) => Container(

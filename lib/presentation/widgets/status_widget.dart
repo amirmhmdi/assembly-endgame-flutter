@@ -29,8 +29,8 @@ class _StatusWidgetState extends ConsumerState<StatusWidget> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(gameStateProvider);
-    if (ref.read(gameStateProvider.notifier).isGameOver) {
+    final game = ref.watch(gameStateProvider);
+    if (game.isGameOver) {
       return Container(
         height: 55,
         width: 300,
@@ -55,7 +55,7 @@ class _StatusWidgetState extends ConsumerState<StatusWidget> {
           ),
         ),
       );
-    } else if (ref.read(gameStateProvider.notifier).isWon) {
+    } else if (game.isWon) {
       controller!.play();
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +99,7 @@ class _StatusWidgetState extends ConsumerState<StatusWidget> {
           ),
         ],
       );
-    } else if (!ref.read(gameStateProvider.notifier).isLastLetterCorrect()) {
+    } else if (!game.isLastLetterCorrect) {
       return Container(
         height: 55,
         width: 300,
@@ -110,8 +110,7 @@ class _StatusWidgetState extends ConsumerState<StatusWidget> {
         ),
         child: Text(
           getFarewellText(
-            languagesList[ref.read(gameStateProvider.notifier).wrongCount - 1]
-                ['name']!,
+            languagesList[game.wrongCount - 1]['name']!,
           ),
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.white),
