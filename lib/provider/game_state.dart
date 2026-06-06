@@ -21,8 +21,7 @@ class GameState extends _$GameState {
   }
 
   String _setCurrentWord() {
-    return "FLUTTER";
-    // return wordsList[Random().nextInt(wordsList.length)].toUpperCase();
+    return wordsList[Random().nextInt(wordsList.length)].toUpperCase();
   }
 
   void reset() {
