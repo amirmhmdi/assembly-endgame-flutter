@@ -29,6 +29,12 @@ class _StatusWidgetState extends ConsumerState<StatusWidget> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(gameStateProvider.select((s) => s.isWon), (prev, next) {
+      if (next) {
+        controller!.play();
+      }
+    });
+
     final game = ref.watch(gameStateProvider);
     if (game.isGameOver) {
       return Container(
@@ -56,7 +62,6 @@ class _StatusWidgetState extends ConsumerState<StatusWidget> {
         ),
       );
     } else if (game.isWon) {
-      controller!.play();
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

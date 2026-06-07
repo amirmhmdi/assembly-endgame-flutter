@@ -19,6 +19,8 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   riverpod_generator: ^2.4.0
   build_runner: ^2.4.9
+  riverpod_test: any
+  mocktail: ^1.0.4
 
 flutter:
   uses-material-design: true
