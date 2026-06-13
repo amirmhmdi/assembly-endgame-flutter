@@ -1,48 +1,57 @@
-# Assembly Endgame
+# 🎮 Assembly Endgame — Flutter
 
-A Flutter-based word guessing game where players try to guess a secret word by identifying its constituent letters. The game features a hangman-style progression, tracking incorrect guesses with visual indicators.
+A Flutter rebuild of the classic "Assembly Endgame" word-guessing game (Hangman-style), built to practice **Riverpod state management** and clean, scalable app architecture.
 
-## Features
+> This is the Flutter counterpart to the [React version](https://github.com/amirmhmdi/assembly-endgame-react) — same game, same logic, ported to a cross-platform Flutter app with proper state management instead of basic component state.
 
-- **Word Guessing**: Players guess letters to reveal a hidden word.
-- **Hangman Progression**: Incorrect guesses are tracked, with visual feedback for each loss.
-- **Language Support**: The game includes a list of languages with associated colors and farewell messages.
-- **Game States**: Supports multiple game states including playing, game over, and win.
-- **Responsive UI**: The interface adapts to different screen sizes.
+🔗 **[Live Demo](https://amirmhmdi.github.io/assembly-endgame-flutter/)**
 
-## Getting Started
+## ✨ Features
+
+- **Word guessing gameplay** — guess letters to reveal a hidden word before running out of attempts
+- **Hangman-style progression** — incorrect guesses are tracked visually, raising the stakes with each wrong answer
+- **Programming language theme** — each wrong guess "eliminates" a programming language, complete with farewell messages
+- **Win / lose / playing states** — full game state machine with clear UI feedback for every outcome
+- **Responsive UI** — adapts cleanly across mobile, web, and desktop screen sizes
+- **Riverpod state management** — game logic is fully decoupled from the UI via providers
+
+## 🛠 Tech Stack
+
+- **Flutter** (Dart)
+- **Riverpod** for state management
+- Cross-platform targets: Android, iOS, Web, Windows, macOS, Linux
+
+## 📂 Project Structure
+
+```
+lib/
+├── main.dart              # App entry point
+├── provider/
+│   └── game_state.dart    # Game logic & state, managed via Riverpod
+├── presentation/           # UI screens and widgets
+└── utils/                   # Static data (languages, word list, helpers)
+```
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Flutter SDK installed and configured.
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) installed and configured
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd assembly_endgame
-   ```
+```bash
+git clone https://github.com/amirmhmdi/assembly-endgame-flutter.git
+cd assembly-endgame-flutter
+flutter pub get
+```
 
-2. Install dependencies:
-   ```bash
-   flutter pub get
-   ```
-
-### Running the App
-
-Start the application using Flutter:
+### Run the app
 
 ```bash
 flutter run
 ```
 
-## Project Structure
+## 🔗 Related Project
 
-The project is organized into the following main directories:
-
-- `lib/main.dart`: Entry point of the application.
-- `lib/provider/game_state.dart`: Manages the game state and logic.
-- `lib/presentation/`: Contains all UI widgets and screens.
-- `lib/utils/`: Includes utility functions and data (languages, words).
-
+Check out the [React version of this game](https://github.com/amirmhmdi/assembly-endgame-react) — same concept, built with React to compare state management approaches across frameworks.
